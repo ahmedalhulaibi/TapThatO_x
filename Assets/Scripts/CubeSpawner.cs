@@ -167,130 +167,156 @@ public class CubeSpawner : MonoBehaviour {
 			string newText = "";
 			switch (difficulty) {
 			case DifficultyLevel.Easy:
-				newText += "EASY\nSCORE\n";
-				newText += score.ToString() + "\n";
-				if(score > HighScoreEasy)
-				{
-					HighScoreEasy = score;
-					PlayerPrefs.SetInt("HighScoreEasy",HighScoreEasy);
-					newText += "NEW HIGH SCORE\n" + HighScoreEasy.ToString();
-				}else
-				{
-					newText += "HIGH SCORE\n" + HighScoreEasy.ToString();
-				}
-				if(GooglePlayGamesManager.gpgManager.IsSignedIn)
-				{
-					GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
-					                                                           GooglePlayGamesManager.gpgManager.Leaderboards_NAME[0]);
-					if(score == 2)
-					{
-						GooglePlayGamesManager.gpgManager.UnlockAchievement("2 E-Z 5 U");
-					}
-				}
+                    GameOverEasy(ref newText);
 				break;
 			case DifficultyLevel.Medium:
-				newText += "MEDIUM\nSCORE\n";
-				newText += score.ToString() + "\n";
-				if(score > HighScoreMed)
-				{
-					HighScoreMed = score;
-					PlayerPrefs.SetInt("HighScoreMed",HighScoreMed);
-					newText += "NEW HIGH SCORE\n" + HighScoreMed.ToString();
-				}else
-				{
-					newText += "HIGH SCORE\n" + HighScoreMed.ToString();
-				}
-				if(GooglePlayGamesManager.gpgManager.IsSignedIn)
-				{
-					GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
-					                                                           GooglePlayGamesManager.gpgManager.Leaderboards_NAME[1]);
-				}
+                    GameOverMedium(ref newText);
 				break;
 			case DifficultyLevel.Hard:
-				newText += "HARD\nSCORE\n";
-				newText += score.ToString() + "\n";
-				if(score > HighScoreHard)
-				{
-					HighScoreHard = score;
-					PlayerPrefs.SetInt("HighScoreHard",HighScoreHard);
-					newText += "NEW HIGH SCORE\n" + HighScoreHard.ToString();
-				}else
-				{
-					newText += "HIGH SCORE\n" + HighScoreHard.ToString();
-				}
-				if(GooglePlayGamesManager.gpgManager.IsSignedIn)
-				{
-					GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
-					                                                           GooglePlayGamesManager.gpgManager.Leaderboards_NAME[2]);
-				}
+                    GameOverHard(ref newText);
 				break;
 			case DifficultyLevel.O_xtreme:
-				newText += "O_x\nSCORE\n";
-				newText += score.ToString() + "\n";
-				if(score > HighScoreO_x)
-				{
-					HighScoreO_x = score;
-					PlayerPrefs.SetInt("HighScoreO_x",HighScoreO_x);
-					newText += "NEW HIGH SCORE\n" + HighScoreO_x.ToString();
-				}else
-				{
-					newText += "HIGH SCORE\n" + HighScoreO_x.ToString();
-				}
-				if(GooglePlayGamesManager.gpgManager.IsSignedIn)
-				{
-					GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
-					                                                           GooglePlayGamesManager.gpgManager.Leaderboards_NAME[3]);
-					if(score >= 100)
-					{
-						GooglePlayGamesManager.gpgManager.UnlockAchievement("100 O_x");
-						GooglePlayGamesManager.gpgManager.IncrementAchievement("21st Century Ox",1);
-					}
-				}
+                    GameOverO_xtreme(ref newText);
 				break;
 			}
-			if(GooglePlayGamesManager.gpgManager.IsSignedIn)
-			{
-				GooglePlayGamesManager.gpgManager.IncrementEvent("Number of plays");
-				if(score == 2)
-				{
-					GooglePlayGamesManager.gpgManager.IncrementAchievement("21st 2 E-Z 5 U",1);
-				}
-				if(score == 12)
-				{
-					GooglePlayGamesManager.gpgManager.IncrementAchievement("Chicken P-Ox",1);
-				}
-				if(score == 101)
-				{
-					GooglePlayGamesManager.gpgManager.UnlockAchievement("101 Ox-matians");
-				}
-				if(score >= 100)
-				{
-					//increment 21st century achievement
-					GooglePlayGamesManager.gpgManager.IncrementAchievement("21st Century",1);
-				}
-				if(score >= 300)
-				{
-					GooglePlayGamesManager.gpgManager.UnlockAchievement("This is O_x!");
-				}
-				if(score >= 1000)
-				{
-					GooglePlayGamesManager.gpgManager.UnlockAchievement("M'player *Tips fedora*");
-				}
-				
-				GooglePlayGamesManager.gpgManager.IncrementAchievement("Olly Olly O_xen Free!",score);
-				GooglePlayGamesManager.gpgManager.IncrementAchievement("Strong Like Ox",score);
-				GooglePlayGamesManager.gpgManager.IncrementAchievement("Ox-y Cleopatra",score);
-				GooglePlayGamesManager.gpgManager.IncrementAchievement("The Year of The Ox",score);
-			}
+            AchievementUpdate();
 			scorePageText.text = newText;
 			PlayerPrefs.Save ();
 		}
-
-
 	}
 
+    void GameOverEasy(ref string newText)
+    {
+        newText += "EASY\nSCORE\n";
+        newText += score.ToString() + "\n";
+        if (score > HighScoreEasy)
+        {
+            HighScoreEasy = score;
+            PlayerPrefs.SetInt("HighScoreEasy", HighScoreEasy);
+            newText += "NEW HIGH SCORE\n" + HighScoreEasy.ToString();
+        }
+        else
+        {
+            newText += "HIGH SCORE\n" + HighScoreEasy.ToString();
+        }
+        if (GooglePlayGamesManager.gpgManager.IsSignedIn)
+        {
+            GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
+                                                                       GooglePlayGamesManager.gpgManager.Leaderboards_NAME[0]);
+            if (score == 2)
+            {
+                GooglePlayGamesManager.gpgManager.UnlockAchievement("2 E-Z 5 U");
+            }
+        }
+    }
 
-	public void Spawn()
+    void GameOverMedium(ref string newText)
+    {
+        newText += "MEDIUM\nSCORE\n";
+        newText += score.ToString() + "\n";
+        if (score > HighScoreMed)
+        {
+            HighScoreMed = score;
+            PlayerPrefs.SetInt("HighScoreMed", HighScoreMed);
+            newText += "NEW HIGH SCORE\n" + HighScoreMed.ToString();
+        }
+        else
+        {
+            newText += "HIGH SCORE\n" + HighScoreMed.ToString();
+        }
+        if (GooglePlayGamesManager.gpgManager.IsSignedIn)
+        {
+            GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
+                                                                       GooglePlayGamesManager.gpgManager.Leaderboards_NAME[1]);
+        }
+    }
+
+    void GameOverHard(ref string newText)
+    {
+        newText += "HARD\nSCORE\n";
+        newText += score.ToString() + "\n";
+        if (score > HighScoreHard)
+        {
+            HighScoreHard = score;
+            PlayerPrefs.SetInt("HighScoreHard", HighScoreHard);
+            newText += "NEW HIGH SCORE\n" + HighScoreHard.ToString();
+        }
+        else
+        {
+            newText += "HIGH SCORE\n" + HighScoreHard.ToString();
+        }
+        if (GooglePlayGamesManager.gpgManager.IsSignedIn)
+        {
+            GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
+                                                                       GooglePlayGamesManager.gpgManager.Leaderboards_NAME[2]);
+        }
+    }
+
+    void GameOverO_xtreme(ref string newText)
+    {
+        newText += "O_x\nSCORE\n";
+        newText += score.ToString() + "\n";
+        if (score > HighScoreO_x)
+        {
+            HighScoreO_x = score;
+            PlayerPrefs.SetInt("HighScoreO_x", HighScoreO_x);
+            newText += "NEW HIGH SCORE\n" + HighScoreO_x.ToString();
+        }
+        else
+        {
+            newText += "HIGH SCORE\n" + HighScoreO_x.ToString();
+        }
+        if (GooglePlayGamesManager.gpgManager.IsSignedIn)
+        {
+            GooglePlayGamesManager.gpgManager.UploadScoreToLeaderboard(score,
+                                                                       GooglePlayGamesManager.gpgManager.Leaderboards_NAME[3]);
+            if (score >= 100)
+            {
+                GooglePlayGamesManager.gpgManager.UnlockAchievement("100 O_x");
+                GooglePlayGamesManager.gpgManager.IncrementAchievement("21st Century Ox", 1);
+            }
+        }
+    }
+
+    void AchievementUpdate()
+    {
+        if (GooglePlayGamesManager.gpgManager.IsSignedIn)
+        {
+            GooglePlayGamesManager.gpgManager.IncrementEvent("Number of plays");
+            if (score == 2)
+            {
+                GooglePlayGamesManager.gpgManager.IncrementAchievement("21st 2 E-Z 5 U", 1);
+            }
+            if (score == 12)
+            {
+                GooglePlayGamesManager.gpgManager.IncrementAchievement("Chicken P-Ox", 1);
+            }
+            if (score == 101)
+            {
+                GooglePlayGamesManager.gpgManager.UnlockAchievement("101 Ox-matians");
+            }
+            if (score >= 100)
+            {
+                //increment 21st century achievement
+                GooglePlayGamesManager.gpgManager.IncrementAchievement("21st Century", 1);
+            }
+            if (score >= 300)
+            {
+                GooglePlayGamesManager.gpgManager.UnlockAchievement("This is O_x!");
+            }
+            if (score >= 1000)
+            {
+                GooglePlayGamesManager.gpgManager.UnlockAchievement("M'player *Tips fedora*");
+            }
+
+            GooglePlayGamesManager.gpgManager.IncrementAchievement("Olly Olly O_xen Free!", score);
+            GooglePlayGamesManager.gpgManager.IncrementAchievement("Strong Like Ox", score);
+            GooglePlayGamesManager.gpgManager.IncrementAchievement("Ox-y Cleopatra", score);
+            GooglePlayGamesManager.gpgManager.IncrementAchievement("The Year of The Ox", score);
+        }
+    }
+
+    public void Spawn()
 	{
 		Debug.LogWarning("Spawn() event fired!  " + Time.time.ToString());
 		int randomCube = Random.Range (0, 3);

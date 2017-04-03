@@ -51,39 +51,39 @@ public class CubeScript : MonoBehaviour {
 		}
 
 	}
-	void processHitInfo(RaycastHit2D HitInfo)
-	{
-		if (HitInfo) {
-			if (HitInfo.collider == boxCollider) {
-					
-				animator.SetTrigger ("PopIt");
-				sibling.animator.SetTrigger("PopIt");
-				
-				if (tag == "Xcube") {
-					AudioManager.aMgr.PlayFailSound ();
-					CubeSpawner.cubeSpawner.GameOver ();
-					if(GooglePlayGamesManager.gpgManager.IsSignedIn) {
-						GooglePlayGamesManager.gpgManager.UnlockAchievement("Tapped out");
-					}
-					} else if (tag == "Ocube") {
-						AudioManager.aMgr.PlayPopSound ();
-						CubeSpawner.cubeSpawner.score++;
-					} else {
-						if (sibling.tag == "Ocube") {
-							AudioManager.aMgr.PlayFailSound ();
-							CubeSpawner.cubeSpawner.GameOver ();
-							if(GooglePlayGamesManager.gpgManager.IsSignedIn) {
-								GooglePlayGamesManager.gpgManager.UnlockAchievement("Tapped out");
-							}
-							} else {
-								AudioManager.aMgr.PlayPopSound ();
-								CubeSpawner.cubeSpawner.score++;
-							}
-						}
-					}
-				}
-		}
-	}
+    void processHitInfo(RaycastHit2D HitInfo)
+    {
+        if (HitInfo) {
+            if (HitInfo.collider == boxCollider) {
+
+                animator.SetTrigger("PopIt");
+                sibling.animator.SetTrigger("PopIt");
+
+                if (tag == "Xcube") {
+                    AudioManager.aMgr.PlayFailSound();
+                    CubeSpawner.cubeSpawner.GameOver();
+                    if (GooglePlayGamesManager.gpgManager.IsSignedIn) {
+                        GooglePlayGamesManager.gpgManager.UnlockAchievement("Tapped out");
+                    }
+                } else if (tag == "Ocube") {
+                    AudioManager.aMgr.PlayPopSound();
+                    CubeSpawner.cubeSpawner.score++;
+                } else {
+                    if (sibling.tag == "Ocube") {
+                        AudioManager.aMgr.PlayFailSound();
+                        CubeSpawner.cubeSpawner.GameOver();
+                        if (GooglePlayGamesManager.gpgManager.IsSignedIn) {
+                            GooglePlayGamesManager.gpgManager.UnlockAchievement("Tapped out");
+                        }
+                    } else {
+                        AudioManager.aMgr.PlayPopSound();
+                        CubeSpawner.cubeSpawner.score++;
+                    }
+                }
+            }
+        }
+    }
+
 	void LateUpdate()
 	{
 	}
